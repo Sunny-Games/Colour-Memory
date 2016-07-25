@@ -26,16 +26,20 @@ class CardView: UIView {
         backIV.image = image
     }
     
-    func flipCard(showColour : Bool){
+    func flipCard(showColour : Bool, completion: ((Bool) -> Void)?){
         if showColour{
-            UIView.transitionFromView(frontIV, toView: backIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: nil)
+            UIView.transitionFromView(frontIV, toView: backIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: completion)
         }else{
-            UIView.transitionFromView(backIV, toView: frontIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: nil)
+            UIView.transitionFromView(backIV, toView: frontIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: completion)
         }
     }
     
     func destoryCard(){
-        
+        UIView.animateWithDuration(0.5, animations: {
+            self.frame = CGRectMake(0, 0, 10, 10)
+            }, completion: {(Bool) -> Void in
+                self.removeFromSuperview()
+        })
     }
     
     

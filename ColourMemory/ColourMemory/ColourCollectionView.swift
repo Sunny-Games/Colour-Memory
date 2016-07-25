@@ -32,10 +32,31 @@ class ColourCollectionView: UIView {
         for i in 0...(orderArray.count - 1){
             let ox = 3 + (CGFloat(i) % 4) * (3 + width)
             let oy = CGFloat((Int(i) / 4)) * (height + 5)
-
-            let view = CardView(frame: CGRectMake(ox, oy, width, height), image: UIImage(named: "Colour\(i/2 + 1)"), colourId : (i/2 + 1))
+            
+            let cid = (orderArray[i] / 2 + 1)
+            let view = CardView(frame: CGRectMake(ox, oy, width, height), image: UIImage(named: "Colour\(cid)"), colourId : cid)
             addSubview(view)
             view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colourCardDidTapped(_:))))
+        }
+    }
+    
+    func destroyFlippedCard(){
+        for view in flippedView {
+            view.lp_explodeWithCallback(nil)
+        }
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            self.flippedView.removeAll()
+            self.flipColour.removeAll()
+        }
+    }
+    
+    func recoverFlippedCard(){
+        for view in flippedView {
+            view.flipCard(false, completion: {(complete : Bool) -> Void in
+                self.flippedView.removeAll()
+                self.flipColour.removeAll()
+            })
         }
     }
     
@@ -48,20 +69,20 @@ class ColourCollectionView: UIView {
         }
         
         let view = gesture.view! as! CardView
-        view.flipCard(true)
-        
-        if flipColour.count > 0 {
-            flippedView.append(view)
-            let pre = flipColour[0]
-            if pre == view.colourId{
-                delegate?.colourCollectionViewMemorySuccess(self)
-            }else{
-                delegate?.colourCollectionViewMemoryFailed(self)
+        self.flipColour.append(view.colourId)
+        self.flippedView.append(view)
+
+        let completion = {(complete : Bool) -> Void in
+            if self.flipColour.count == 2 {
+                if self.flipColour[0] == self.flipColour[1]{
+                    self.delegate?.colourCollectionViewMemorySuccess(self)
+                }else{
+                    self.delegate?.colourCollectionViewMemoryFailed(self)
+                }
             }
-        }else{
-            flipColour.append(view.colourId)
-            flippedView.append(view)
         }
+        
+        view.flipCard(true, completion: completion)
     }
     
     required init?(coder aDecoder: NSCoder) {
