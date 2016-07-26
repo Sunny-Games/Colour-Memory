@@ -12,6 +12,7 @@ import Darwin
 protocol ColourCollectionViewDelegate : NSObjectProtocol{
     func colourCollectionViewMemorySuccess(colourView: ColourCollectionView)
     func colourCollectionViewMemoryFailed(colourView: ColourCollectionView)
+    func colourCollectionViewMemoryComplete(colourView: ColourCollectionView)
 }
 
 class ColourCollectionView: UIView {
@@ -41,6 +42,16 @@ class ColourCollectionView: UIView {
     }
     
     func destroyFlippedCard(){
+        var cont = 0
+        for oneView in subviews {
+            if oneView.isKindOfClass(CardView){
+                cont += 1
+            }
+        }
+        if cont == 2{
+            self.delegate?.colourCollectionViewMemoryComplete(self)
+        }
+        
         for view in flippedView {
             view.lp_explodeWithCallback(nil)
         }
@@ -77,13 +88,15 @@ class ColourCollectionView: UIView {
                 if self.flipColour[0] == self.flipColour[1]{
                     self.delegate?.colourCollectionViewMemorySuccess(self)
                 }else{
-                    self.delegate?.colourCollectionViewMemoryFailed(self)
+                    self.delegate?.colourCollectionViewMemoryComplete(self)
                 }
             }
         }
         
         view.flipCard(true, completion: completion)
     }
+    
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
