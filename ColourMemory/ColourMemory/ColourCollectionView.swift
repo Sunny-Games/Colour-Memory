@@ -72,6 +72,12 @@ class ColourCollectionView: UIView {
     }
     
     func colourCardDidTapped(gesture : UITapGestureRecognizer) {
+        if gesture.state != .Ended{
+            return
+        }
+        
+        print("Didtapped")
+        
         if gesture.view == nil {
             return
         }
@@ -88,6 +94,7 @@ class ColourCollectionView: UIView {
                 if self.flipColour[0] == self.flipColour[1]{
                     self.delegate?.colourCollectionViewMemorySuccess(self)
                 }else{
+                    //fixmen
                     self.delegate?.colourCollectionViewMemoryComplete(self)
                 }
             }

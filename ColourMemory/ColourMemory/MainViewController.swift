@@ -8,6 +8,13 @@
 
 import UIKit
 
+var scoreWindow : HighScoreWindow = {
+    let swindow = HighScoreWindow(frame :UIScreen.mainScreen().bounds)
+    swindow.windowLevel = UIWindowLevelNormal + 1
+    swindow.rootViewController = HighScoreViewController()
+    return swindow
+}()
+
 class MainViewController: UIViewController {
     let scoreLabel = UILabel()
     let reminderLabel = UILabel()
@@ -58,7 +65,15 @@ class MainViewController: UIViewController {
     }
     
     func highScoreDidClicked(){
+        scoreWindow.makeKeyAndVisible()
         
+        scoreWindow.showAnimation({(Bool) -> Void in
+            if let vc = scoreWindow.rootViewController{
+                if let svc = vc as? HighScoreViewController {
+                    svc.reloadHighScore()
+                }
+            }
+        })
     }
     
     func showReminderLabel(getScore : Int){
@@ -80,7 +95,7 @@ class MainViewController: UIViewController {
             }, completion: {(Bool) -> Void in
                 self.reminderLabel.removeFromSuperview()
                 self.currentScore += getScore
-            })
+        })
     }
 }
 

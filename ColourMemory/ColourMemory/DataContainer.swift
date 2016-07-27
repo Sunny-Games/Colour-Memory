@@ -12,10 +12,14 @@ class UserScore: NSObject {
     var name = ""
     var score : Int = 0
     
-    init(theName : String, score : Int) {
-        super.init()
+    convenience init(theName : String, score : Int) {
+        self.init()
         self.name = theName
         self.score = score
+    }
+   
+    override init() {
+         super.init()
     }
 }
 
