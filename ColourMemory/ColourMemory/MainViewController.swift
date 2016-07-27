@@ -162,6 +162,7 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
     func colourCollectionViewMemoryFailed(colourView: ColourCollectionView) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             self.showReminderLabel(-1)
+            SoundManager.sharedInstance.playFailedSound()
             colourView.recoverFlippedCard()
         }
     }
@@ -169,6 +170,7 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
     func colourCollectionViewMemorySuccess(colourView: ColourCollectionView) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             self.showReminderLabel(2)
+            SoundManager.sharedInstance.playSuccessSound()
             colourView.destroyFlippedCard()
         }
     }
