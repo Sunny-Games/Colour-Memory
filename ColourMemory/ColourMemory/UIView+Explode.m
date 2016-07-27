@@ -92,7 +92,11 @@ float randomFloat()
     }
     
     [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    [[self.layer sublayers] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
+    NSArray *sublayers = [NSArray arrayWithArray:[self.layer sublayers]];
+    for (CALayer * one in sublayers) {
+        [one removeFromSuperlayer];
+    }
+  //  [[self.layer sublayers] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
     
     for (int y = 0; y < fullRows; ++y)
     {
@@ -149,7 +153,7 @@ float randomFloat()
         
         float r = randomFloat();
         
-        NSTimeInterval speed = 3.35*r;
+        NSTimeInterval speed = 1.8*r;
         
         CAKeyframeAnimation *transformAnim = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
         
@@ -191,7 +195,6 @@ float randomFloat()
         
         //take it off screen
         [layer setPosition:CGPointMake(0, -200)];
-        
     }];
 }
 

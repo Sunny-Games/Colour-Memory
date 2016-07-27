@@ -10,7 +10,6 @@ import UIKit
 
 var scoreWindow : HighScoreWindow = {
     let swindow = HighScoreWindow(frame :UIScreen.mainScreen().bounds)
-    swindow.windowLevel = UIWindowLevelNormal + 1
     swindow.rootViewController = HighScoreViewController()
     return swindow
 }()
@@ -28,6 +27,9 @@ class MainViewController: UIViewController {
         }
         get { return _currentScore }
     }
+    
+    var replayBtn = UIButton()
+    var cardView : ColourCollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,9 +53,19 @@ class MainViewController: UIViewController {
         let height = (view.frame.size.width - 15) * 190 / 152 + 15
         let spacing = (view.frame.size.height - height - 64) / 2
         
-        let cardView = ColourCollectionView(frame : CGRectMake(0, 64 + spacing, view.frame.size.width, height))
+        cardView = ColourCollectionView(frame : CGRectMake(0, 64 + spacing, view.frame.size.width, height))
         cardView.delegate = self
         view.addSubview(cardView)
+        
+        let replayHeight : CGFloat = 100 * 168 / 148
+        replayBtn.frame = CGRectMake(view.frame.size.width / 2 - 50, cardView.frame.height / 2 + cardView.frame.origin.y - 25 - replayHeight / 2, 100, replayHeight)
+        replayBtn.withImage(UIImage(named: "ReplayIcon"))
+        replayBtn.addTarget(self, action: #selector(replayBtnDidClicked), forControlEvents: .TouchUpInside)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
@@ -62,6 +74,22 @@ class MainViewController: UIViewController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
+    }
+    
+    func replayBtnDidClicked(){
+        UIView.animateWithDuration(1, animations:{
+            self.replayBtn.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            self.replayBtn.alpha = 0
+        })
+        
+        let complete = {() -> Void in
+            self.replayBtn.layer.removeAllAnimations()
+            self.replayBtn.removeFromSuperview()
+            self.replayBtn.transform = CGAffineTransformIdentity
+            self.replayBtn.alpha = 1
+        }
+        currentScore = 0
+        cardView.restartAnimation(completion: complete)
     }
     
     func highScoreDidClicked(){
@@ -87,7 +115,7 @@ class MainViewController: UIViewController {
         }
         view.addSubview(reminderLabel)
         reminderLabel.alpha = 1
-        reminderLabel.frame = CGRectMake(view.frame.size.width / 2 - 50, 300, 100, 44)
+        reminderLabel.frame = CGRectMake(scoreLabel.frame.origin.x, 300, scoreLabel.frame.size.width, 44)
         let scoreFrame = self.scoreLabel.frame
         UIView.animateWithDuration(1, animations: {
             self.reminderLabel.alpha = 1
@@ -101,19 +129,34 @@ class MainViewController: UIViewController {
 
 extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate {
     func showCompleteView(){
-        let completeView = CompleteView(frame: CGRectMake(self.view.frame.size.width / 2 - 110, self.view.frame.size.height / 2 - 135 / 2 - 25, 220, 145), score: self.currentScore)
+        let completeView = CompleteView(frame: CGRectMake(self.view.frame.size.width / 2 - 110, self.view.frame.size.height / 2 - 181 / 2 - 25, 220, 181), score: self.currentScore)
         completeView.delegate = self
+        
+        let handler = {(rank : Int) -> Void in
+            completeView.setRankInfo(rank)
+        }
+        DataContainer.sharedIntance.getRanking(self.currentScore, handler: handler)
         self.view.addSubviews(completeView)
         completeView.showAnimation(highScoreBtn.frame)
     }
     
+    func showReplayBtn(){
+        self.replayBtn.alpha = 0
+        view.addSubview(replayBtn)
+        UIView.animateWithDuration(0.3, animations: {
+            self.replayBtn.alpha = 1
+            }, completion: nil)
+    }
+    
     func completeViewDidCancel(completeView: CompleteView) {
         completeView.hideAnimation(completeView.frame)
+        showReplayBtn()
     }
     
     func completeViewDidSubmit(completeView: CompleteView, name: String) {
         completeView.hideAnimation(highScoreBtn.frame)
         DataContainer.sharedIntance.storeScore(self.currentScore, name: name)
+        showReplayBtn()
     }
     
     func colourCollectionViewMemoryFailed(colourView: ColourCollectionView) {
@@ -124,15 +167,13 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
     }
     
     func colourCollectionViewMemorySuccess(colourView: ColourCollectionView) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * Int64(NSEC_PER_SEC)), dispatch_get_main_queue()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             self.showReminderLabel(2)
             colourView.destroyFlippedCard()
         }
     }
     
     func colourCollectionViewMemoryComplete(colourView: ColourCollectionView) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * Int64(NSEC_PER_SEC)), dispatch_get_main_queue()) {
-            self.showCompleteView()
-        }
+        self.showCompleteView()
     }
 }

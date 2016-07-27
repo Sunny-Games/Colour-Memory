@@ -18,6 +18,7 @@ class CompleteView: UIView, UITextFieldDelegate {
     let textField = UITextField()
     let hintLabel = UILabel()
     
+    let rankLabel = UILabel()
     let scoreLabel = UILabel()
     let nameLabel = UILabel()
     let border = UIView()
@@ -30,7 +31,11 @@ class CompleteView: UIView, UITextFieldDelegate {
         clipsToBounds = true
         backgroundColor = UIColor(fromHexString: "0F0E14")
         
-        scoreLabel.frame = CGRectMake(0, 10, frame.size.width, 36)
+        rankLabel.frame = CGRectMake(0, 10, frame.size.width, 36)
+        rankLabel.withFontHeleticaMedium(16).textCentered()
+        addSubviews(rankLabel)
+        
+        scoreLabel.frame = CGRectMake(0, CGRectGetMaxY(rankLabel.frame), frame.size.width, 36)
         scoreLabel.withTextColor(UIColor.whiteColor()).withText("Score : \(score)").withFontHeleticaMedium(16).textCentered()
         
         nameLabel.frame = CGRectMake(20, CGRectGetMaxY(scoreLabel.frame), 60, 36)
@@ -66,6 +71,10 @@ class CompleteView: UIView, UITextFieldDelegate {
         
     }
     
+    func setRankInfo(rank : Int){
+        rankLabel.withTextColor(UIColor.whiteColor()).withText("Ranking : \(rank)")
+    }
+    
     func doneBtnDidClicked(){
         if checkInput(){
             textField.resignFirstResponder()
@@ -77,7 +86,7 @@ class CompleteView: UIView, UITextFieldDelegate {
         let tmpSize = frame
         alpha = 0
         self.frame = startFrame
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animateWithDuration(0.5, animations: {
             self.frame = tmpSize
             self.alpha = 1
         })
