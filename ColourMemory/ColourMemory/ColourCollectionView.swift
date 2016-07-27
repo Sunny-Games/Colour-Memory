@@ -111,6 +111,11 @@ class ColourCollectionView: UIView {
         }
  
         let view = gesture.view! as! CardView
+        if flippedView.count == 1{
+            if view == flippedView[0] {
+                return
+            }
+        }
         self.flipColour.append(view.colourId)
         self.flippedView.append(view)
         

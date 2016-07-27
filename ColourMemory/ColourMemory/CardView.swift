@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import SpriteKit
+import AVFoundation
+
 
 class CardView: UIView {
     let frontIV = UIImageView()
     let backIV = UIImageView()
     
     var colourId : Int!
+    let coinSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("lock", ofType: "mp3")!)
+    
+    var sound : AVAudioPlayer?
     
     init(frame: CGRect, image : UIImage?, colourId : Int) {
         super.init(frame : frame)
@@ -24,10 +30,20 @@ class CardView: UIView {
         addSubviews(frontIV)
         frontIV.image = UIImage(named : "CardBack")
         backIV.image = image
+        
+        do {
+            sound = try AVAudioPlayer(contentsOfURL: coinSound)
+            sound!.prepareToPlay()
+        } catch {
+            // couldn't load file :(
+        }
     }
     
     func flipCard(showColour : Bool, completion: ((Bool) -> Void)?){
         if showColour{
+            if sound != nil {
+                sound!.play()
+            }
             UIView.transitionFromView(frontIV, toView: backIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: completion)
         }else{
             UIView.transitionFromView(backIV, toView: frontIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: completion)
