@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  ColourMemory
 //
-//  Created by jiao qing on 25/7/16.
+//  Created by jiao qing on 28/7/16.
 //  Copyright © 2016 jiao qing. All rights reserved.
 //
 
@@ -12,13 +12,10 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
- 
+
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-
-//          window!.rootViewController = UINavigationController(rootViewController: MainViewController())
-//        window!.makeKeyWindow()
-
         return true
     }
 
