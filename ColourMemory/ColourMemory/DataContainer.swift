@@ -44,8 +44,26 @@ class DataContainer: NSObject {
                 handler(ret)
             }
         }
-        
-        LocalScoreTable.queryAll(handler: wrapper)
+
+        let vNetTask = ScoreListNetTask()
+        vNetTask.success = {(task : NSURLSessionDataTask, responseObject : AnyObject?) -> Void in
+            if let jsonData: NSData = responseObject as? NSData {
+                do {
+                    let jsonArray = try NSJSONSerialization.JSONObjectWithData(jsonData, options:[])
+                    if let theArray = jsonArray as? NSArray{
+                        let video = ScoreListNetTask.parseResultToUserScoreList(theArray)
+                        wrapper(video)
+                    }
+                }
+                catch {
+                }
+            }
+        }
+        vNetTask.failed = {(task : NSURLSessionDataTask?, error : NSError) -> Void in
+            print(error.description)
+            LocalScoreTable.queryAll(handler: wrapper)
+        }
+        NetWorkHandler.sharedInstance.sendNetTask(vNetTask)
     }
     
     func getRanking(score : Int, handler : (Int) -> Void){
