@@ -129,7 +129,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate {
     func showCompleteView(){
-        let completeView = CompleteView(frame: CGRectMake(self.view.frame.size.width / 2 - 110, self.view.frame.size.height / 2 - 181 / 2 - 25, 220, 181), score: self.currentScore)
+        let completeView = CompleteView(frame: CGRectMake(self.view.frame.size.width / 2 - 150, self.view.frame.size.height / 2 - 181 / 2 - 25, 300, 181), score: self.currentScore)
         completeView.delegate = self
         
         let handler = {(rank : Int) -> Void in

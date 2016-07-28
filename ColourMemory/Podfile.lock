@@ -22,6 +22,7 @@ PODS:
     - sqlite3
   - FMDB/standalone/FTS (2.6.2):
     - sqlite3/fts
+  - MBProgressHUD (1.0.0)
   - sqlite3 (3.13.0):
     - sqlite3/common (= 3.13.0)
   - sqlite3/common (3.13.0)
@@ -33,15 +34,17 @@ DEPENDENCIES:
   - AFNetworking
   - Cartography
   - FMDB/standalone
+  - MBProgressHUD
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   sqlite3: c8b1b937fe823ab46411e471cdc1aa92d1b106ce
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: d657684df6c9adcc52e3d11c665ff9f24f4ed2eb
+PODFILE CHECKSUM: fdd6c7dff8cb5497b3de4267fcfe8745febcbca5
 
 COCOAPODS: 1.0.1

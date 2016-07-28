@@ -7,5 +7,6 @@ target 'ColourMemory' do
     pod 'Cartography'
     pod 'FMDB/standalone'
     pod 'AFNetworking'
+    pod 'MBProgressHUD'
 end
 

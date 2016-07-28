@@ -4,6 +4,7 @@
 
 @import Cartography;
 @import AFNetworking;
+@import MBProgressHUD;
 
 #import "UIFont+Custom.h"
 #import "UIColor+MOAdditions.h"

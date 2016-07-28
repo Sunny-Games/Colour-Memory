@@ -12,10 +12,11 @@ let UserScoreTableCellIdentity = "UserScoreTableCellIdentity"
 
 class ScoreTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
     var users = [UserScore]()
- 
+    
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
+        contentInset = UIEdgeInsetsMake(0, 0, 30, 0)
         backgroundColor = UIColor.whiteColor()
         self.delegate = self
         self.dataSource = self
@@ -44,7 +45,7 @@ class ScoreTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier(UserScoreTableCellIdentity) as! UserScoreTableCell
         let oneContact = users[indexPath.row]
         cell.selectionStyle = .None
-        cell.setNameScore(oneContact.name, score: oneContact.score)
+        cell.setNameScore(oneContact.name, score: oneContact.score, rank: oneContact.rank)
         
         return cell
     }
@@ -53,7 +54,8 @@ class ScoreTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 class UserScoreTableCell: UITableViewCell {
     private let nameLabel = UILabel()
     private let scoreLabel = UILabel()
-
+    private let rankLabel = UILabel()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -61,35 +63,42 @@ class UserScoreTableCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-  
-        self.addSubviews(nameLabel, scoreLabel)
+        
+        self.addSubviews(nameLabel, scoreLabel, rankLabel)
         backgroundColor = UIColor.blackDrak()
         
         nameLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered()
         scoreLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered()
+        rankLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered()
         
         let border = UIView()
         border.backgroundColor = UIColor.whiteColor()
         addSubview(border)
         
-        constrain(nameLabel, scoreLabel, border, self) { nameLabel, scoreLabel, border, superView in
+        constrain(nameLabel, scoreLabel, rankLabel, border, self) { nameLabel, scoreLabel, rankLabel, border, superView in
             nameLabel.left == superView.left
-            scoreLabel.right == superView.right
+            scoreLabel.left == nameLabel.right
+            rankLabel.left == scoreLabel.right
+            rankLabel.right == superView.right
+            
             nameLabel.bottom == superView.bottom - 3
             scoreLabel.bottom == nameLabel.bottom
-            nameLabel.width == superView.width / 2
-            scoreLabel.width == superView.width / 2
+            rankLabel.bottom == nameLabel.bottom
             
-            border.left == superView.left + 23
-            border.right == superView.right - 23
+            nameLabel.width == superView.width * 0.5
+            scoreLabel.width == superView.width * 0.2
+            
+            border.left == superView.left + 5
+            border.right == superView.right - 5
             border.bottom == superView.bottom
             border.height == 0.5
         }
     }
- 
-    func setNameScore(name : String, score : Int){
+    
+    func setNameScore(name : String, score : Int, rank : Int){
         nameLabel.withText(name)
         scoreLabel.withText("\(score)")
+        rankLabel.withText("\(rank)")
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -25,6 +25,8 @@ class CompleteView: UIView, UITextFieldDelegate {
     let doneBtn = UIButton()
     let cancelBtn = UIButton()
     
+    let active = UIActivityIndicatorView()
+    
     init(frame: CGRect, score : Int) {
         super.init(frame : frame)
         
@@ -32,8 +34,14 @@ class CompleteView: UIView, UITextFieldDelegate {
         backgroundColor = UIColor(fromHexString: "0F0E14")
         
         rankLabel.frame = CGRectMake(0, 10, frame.size.width, 36)
+        rankLabel.text = "Rank"
         rankLabel.withFontHeleticaMedium(16).textCentered()
         addSubviews(rankLabel)
+        
+        active.activityIndicatorViewStyle = .White
+        active.frame = rankLabel.frame
+        active.startAnimating()
+        addSubview(active)
         
         scoreLabel.frame = CGRectMake(0, CGRectGetMaxY(rankLabel.frame), frame.size.width, 36)
         scoreLabel.withTextColor(UIColor.whiteColor()).withText("Score : \(score)").withFontHeleticaMedium(16).textCentered()
@@ -42,7 +50,7 @@ class CompleteView: UIView, UITextFieldDelegate {
         nameLabel.withFontHeleticaMedium(15).withText("Name :").withTextColor(UIColor.whiteColor())
         addSubviews(nameLabel)
         
-        textField.frame = CGRectMake(CGRectGetMaxX(nameLabel.frame), CGRectGetMaxY(scoreLabel.frame), 100, 36)
+        textField.frame = CGRectMake(CGRectGetMaxX(nameLabel.frame), CGRectGetMaxY(scoreLabel.frame), frame.size.width - 15 - CGRectGetMaxX(nameLabel.frame), 36)
         textField.delegate = self
         textField.textAlignment = .Center
         textField.returnKeyType = .Done
@@ -72,6 +80,7 @@ class CompleteView: UIView, UITextFieldDelegate {
     }
     
     func setRankInfo(rank : Int){
+        active.stopAnimating()
         rankLabel.withTextColor(UIColor.whiteColor()).withText("Ranking : \(rank)")
     }
     
