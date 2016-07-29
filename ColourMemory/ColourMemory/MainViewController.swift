@@ -135,6 +135,7 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
         let handler = {(rank : Int) -> Void in
             completeView.setRankInfo(rank)
         }
+        completeView.textField.becomeFirstResponder()
         DataContainer.sharedIntance.getRanking(self.currentScore, handler: handler)
         self.view.addSubviews(completeView)
         completeView.showAnimation(highScoreBtn.frame)
