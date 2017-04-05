@@ -9,13 +9,13 @@
 import UIKit
 
 enum HTTPTaskMethod {
-    case Get
-    case Post
+    case get
+    case post
 }
 
 class BaseNetTask: NSObject {
-    var success = {(task : NSURLSessionDataTask, response : AnyObject?) -> Void in }
-    var failed = {(task : NSURLSessionDataTask?, error : NSError) -> Void in }
+    var success = {(task : URLSessionDataTask, response : AnyObject?) -> Void in }
+    var failed = {(task : URLSessionDataTask?, error : NSError) -> Void in }
     
     func uri() -> String!
     {
@@ -24,15 +24,15 @@ class BaseNetTask: NSObject {
     
     func method() -> HTTPTaskMethod
     {
-        return HTTPTaskMethod.Get
+        return HTTPTaskMethod.get
     }
     
-    func query() -> [NSObject : AnyObject]!
+    func query() -> [AnyHashable: Any]!
     {
         return Dictionary<String , AnyObject>()
     }
     
-    func files() -> [NSObject : AnyObject]? {
+    func files() -> [AnyHashable: Any]? {
         return nil
     }
 }

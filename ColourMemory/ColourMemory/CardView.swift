@@ -29,18 +29,18 @@ class CardView: UIView {
         backIV.image = image
     }
     
-    func flipCard(showColour : Bool, completion: ((Bool) -> Void)?){
+    func flipCard(_ showColour : Bool, completion: ((Bool) -> Void)?){
         if showColour{
             SoundManager.sharedInstance.playFlipSound()
-            UIView.transitionFromView(frontIV, toView: backIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: completion)
+            UIView.transition(from: frontIV, to: backIV, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromRight, completion: completion)
         }else{
-            UIView.transitionFromView(backIV, toView: frontIV, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight, completion: completion)
+            UIView.transition(from: backIV, to: frontIV, duration: 0.3, options: UIViewAnimationOptions.transitionFlipFromRight, completion: completion)
         }
     }
     
     func destoryCard(){
-        UIView.animateWithDuration(0.5, animations: {
-            self.frame = CGRectMake(0, 0, 10, 10)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
             }, completion: {(Bool) -> Void in
                 self.removeFromSuperview()
         })

@@ -17,8 +17,8 @@ class UploadUserScoreNetTask: BaseNetTask {
         return "new"
     }
     
-    override func query() -> [NSObject : AnyObject]!{
-        var dic = Dictionary<String , AnyObject>()
+    override func query() -> [AnyHashable: Any]!{
+        var dic = Dictionary<String , Any>()
         if let tmp = name {
             dic["name"] = tmp
         }

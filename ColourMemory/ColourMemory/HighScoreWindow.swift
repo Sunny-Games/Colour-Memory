@@ -14,11 +14,11 @@ class HighScoreWindow: UIWindow {
         
     }
     
-    func showAnimation(completion: ((Bool) -> Void)?){
-        self.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
+    func showAnimation(_ completion: ((Bool) -> Void)?){
+        self.frame = CGRect(x: UIScreen.main.bounds.size.width, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         self.windowLevel = UIWindowLevelNormal + 1
-        UIView.animateWithDuration(0.3, animations: {
-            self.frame = UIScreen.mainScreen().bounds
+        UIView.animate(withDuration: 0.3, animations: {
+            self.frame = UIScreen.main.bounds
             }, completion: {(f : Bool) -> Void in
                 if completion != nil {
                     completion!(f)
@@ -26,16 +26,16 @@ class HighScoreWindow: UIWindow {
         })
     }
     
-    func hideAnimation(completion: ((Bool) -> Void)?){
-        UIView.animateWithDuration(0.3, animations: {
-            self.frame = CGRectMake(UIScreen.mainScreen().bounds.size.width, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
+    func hideAnimation(_ completion: ((Bool) -> Void)?){
+        UIView.animate(withDuration: 0.3, animations: {
+            self.frame = CGRect(x: UIScreen.main.bounds.size.width, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
             }, completion: {(f : Bool) -> Void in
                 self.windowLevel = UIWindowLevelNormal - 1
-                UIApplication.sharedApplication().delegate?.window!?.makeKeyAndVisible()
-                UIApplication.sharedApplication().delegate?.window!?.rootViewController?.setNeedsStatusBarAppearanceUpdate()
+                UIApplication.shared.delegate?.window!?.makeKeyAndVisible()
+                UIApplication.shared.delegate?.window!?.rootViewController?.setNeedsStatusBarAppearanceUpdate()
                 
-                let value = UIInterfaceOrientation.Portrait.rawValue
-                UIDevice.currentDevice().setValue(value, forKey: "orientation")
+                let value = UIInterfaceOrientation.portrait.rawValue
+                UIDevice.current.setValue(value, forKey: "orientation")
               //  UIApplication.sharedApplication().setStatusBarOrientation(.Portrait, animated: false)
                 if completion != nil {
                     completion!(f)

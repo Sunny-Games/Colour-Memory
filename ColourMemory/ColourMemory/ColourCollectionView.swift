@@ -10,9 +10,9 @@ import UIKit
 import Darwin
 
 protocol ColourCollectionViewDelegate : NSObjectProtocol{
-    func colourCollectionViewMemorySuccess(colourView: ColourCollectionView)
-    func colourCollectionViewMemoryFailed(colourView: ColourCollectionView)
-    func colourCollectionViewMemoryComplete(colourView: ColourCollectionView)
+    func colourCollectionViewMemorySuccess(_ colourView: ColourCollectionView)
+    func colourCollectionViewMemoryFailed(_ colourView: ColourCollectionView)
+    func colourCollectionViewMemoryComplete(_ colourView: ColourCollectionView)
 }
 
 class ColourCollectionView: UIView {
@@ -29,7 +29,7 @@ class ColourCollectionView: UIView {
         restartAnimation(false, completion: nil)
     }
     
-    func restartAnimation(animated : Bool = true, completion: (() -> Void)?){
+    func restartAnimation(_ animated : Bool = true, completion: (() -> Void)?){
         orderArray.shuffle()
         
         flippedView.removeAll()
@@ -41,7 +41,7 @@ class ColourCollectionView: UIView {
         let height = width * 190 / 152
         
         for i in 0...(orderArray.count - 1){
-            let ox = 3 + (CGFloat(i) % 4) * (3 + width)
+            let ox = 3 + (CGFloat(i).truncatingRemainder(dividingBy: 4)) * (3 + width)
             let oy = CGFloat((Int(i) / 4)) * (height + 5)
             
             let cid = (orderArray[i] / 2 + 1)
@@ -51,13 +51,13 @@ class ColourCollectionView: UIView {
                 offSet += frame.size.height + 100
             }
             
-            let view = CardView(frame: CGRectMake(ox, oy + offSet, width, height), image: UIImage(named: "Colour\(cid)"), colourId : cid)
+            let view = CardView(frame: CGRect(x: ox, y: oy + offSet, width: width, height: height), image: UIImage(named: "Colour\(cid)"), colourId : cid)
             addSubview(view)
             view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colourCardDidTapped(_:))))
             
             if animated {
-                UIView.animateWithDuration(1, animations: {
-                    view.frame = CGRectMake(ox, oy, width, height)
+                UIView.animate(withDuration: 1, animations: {
+                    view.frame = CGRect(x: ox, y: oy, width: width, height: height)
                     }, completion: {(Bool) -> Void in
                         if completion != nil {
                             completion!()
@@ -72,18 +72,18 @@ class ColourCollectionView: UIView {
         var index = 0
         for view in flippedView {
             if index == flippedView.count - 1{
-                view.lp_explodeWithCallback({
+                view.lp_explode(callback: {
                     if self.destoried == self.orderArray.count {
                         self.delegate?.colourCollectionViewMemoryComplete(self)
                     }
                 })
             }else{
-                view.lp_explodeWithCallback(nil)
+                view.lp_explode(callback: nil)
             }
             index += 1
         }
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
             self.flippedView.removeAll()
             self.flipColour.removeAll()
         }
@@ -98,8 +98,8 @@ class ColourCollectionView: UIView {
         }
     }
     
-    func colourCardDidTapped(gesture : UITapGestureRecognizer) {
-        if gesture.state != .Ended{
+    func colourCardDidTapped(_ gesture : UITapGestureRecognizer) {
+        if gesture.state != .ended{
             return
         }
  

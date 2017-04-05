@@ -29,9 +29,9 @@ class HighScoreViewController: UIViewController {
         view.addSubview(contentView)
         
         contentView.addSubviews(nameLabel, scoreLabel, rankLabel)
-        nameLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered().withText("Name")
-        scoreLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered().withText("Score")
-        rankLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered().withText("Rank")
+        nameLabel.withTextColor(UIColor.white).withFontHeletica(15).textCentered().withText("Name")
+        scoreLabel.withTextColor(UIColor.white).withFontHeletica(15).textCentered().withText("Score")
+        rankLabel.withTextColor(UIColor.white).withFontHeletica(15).textCentered().withText("Rank")
         
         tableView.backgroundColor = contentView.backgroundColor
         contentView.addSubview(tableView)
@@ -40,22 +40,22 @@ class HighScoreViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        sideView.frame = CGRectMake(0, 0, 100, view.frame.size.height)
-        contentView.frame = CGRectMake(100, 0, view.frame.size.width - 100, view.frame.size.height)
-        tableView.frame = CGRectMake(0, 64, contentView.frame.size.width, view.frame.size.height - 50)
+        sideView.frame = CGRect(x: 0, y: 0, width: 100, height: view.frame.size.height)
+        contentView.frame = CGRect(x: 100, y: 0, width: view.frame.size.width - 100, height: view.frame.size.height)
+        tableView.frame = CGRect(x: 0, y: 64, width: contentView.frame.size.width, height: view.frame.size.height - 50)
         
         let cW = view.frame.size.width - 100
-        nameLabel.frame = CGRectMake(0, 20, cW * 0.5, 44)
-        scoreLabel.frame = CGRectMake(cW * 0.5, 20, cW * 0.2, 44)
-        rankLabel.frame = CGRectMake(cW * 0.7, 20, cW * 0.3, 44)
+        nameLabel.frame = CGRect(x: 0, y: 20, width: cW * 0.5, height: 44)
+        scoreLabel.frame = CGRect(x: cW * 0.5, y: 20, width: cW * 0.2, height: 44)
+        rankLabel.frame = CGRect(x: cW * 0.7, y: 20, width: cW * 0.3, height: 44)
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return [UIInterfaceOrientationMask.Portrait, UIInterfaceOrientationMask.Landscape]
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.portrait, UIInterfaceOrientationMask.landscape]
     }
     
     func didTapMenuBg(){
@@ -64,11 +64,12 @@ class HighScoreViewController: UIViewController {
     
     func reloadHighScore(){
         let handler = {(users : [UserScore]) -> Void in
-            self.tableView.users = users
+            let filtered = users.filter{!$0.name.contains("Sunny") && !$0.name.contains("晓晴") && !$0.name.contains("Qing")}
+            self.tableView.users = filtered
             self.tableView.reloadData()
-            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
-        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         DataContainer.sharedIntance.getHighScores(handler, maxNumber : 20)
     }
 }

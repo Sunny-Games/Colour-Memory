@@ -9,8 +9,8 @@
 import UIKit
 
 protocol CompleteViewDelegate : NSObjectProtocol{
-    func completeViewDidSubmit(completeView: CompleteView, name : String)
-    func completeViewDidCancel(completeView: CompleteView)
+    func completeViewDidSubmit(_ completeView: CompleteView, name : String)
+    func completeViewDidCancel(_ completeView: CompleteView)
 }
 
 class CompleteView: UIView, UITextFieldDelegate {
@@ -33,44 +33,44 @@ class CompleteView: UIView, UITextFieldDelegate {
         clipsToBounds = true
         backgroundColor = UIColor(fromHexString: "0F0E14")
         
-        rankLabel.frame = CGRectMake(0, 10, frame.size.width, 36)
+        rankLabel.frame = CGRect(x: 0, y: 10, width: frame.size.width, height: 36)
         rankLabel.text = "Rank"
         rankLabel.withFontHeleticaMedium(16).textCentered()
         addSubviews(rankLabel)
         
-        active.activityIndicatorViewStyle = .White
+        active.activityIndicatorViewStyle = .white
         active.frame = rankLabel.frame
         active.startAnimating()
         addSubview(active)
         
-        scoreLabel.frame = CGRectMake(0, CGRectGetMaxY(rankLabel.frame), frame.size.width, 36)
-        scoreLabel.withTextColor(UIColor.whiteColor()).withText("Score : \(score)").withFontHeleticaMedium(16).textCentered()
+        scoreLabel.frame = CGRect(x: 0, y: rankLabel.frame.maxY, width: frame.size.width, height: 36)
+        scoreLabel.withTextColor(UIColor.white).withText("Score : \(score)").withFontHeleticaMedium(16).textCentered()
         
-        nameLabel.frame = CGRectMake(20, CGRectGetMaxY(scoreLabel.frame), 60, 36)
-        nameLabel.withFontHeleticaMedium(15).withText("Name :").withTextColor(UIColor.whiteColor())
+        nameLabel.frame = CGRect(x: 20, y: scoreLabel.frame.maxY, width: 60, height: 36)
+        nameLabel.withFontHeleticaMedium(15).withText("Name :").withTextColor(UIColor.white)
         addSubviews(nameLabel)
         
-        textField.frame = CGRectMake(CGRectGetMaxX(nameLabel.frame), CGRectGetMaxY(scoreLabel.frame), frame.size.width - 15 - CGRectGetMaxX(nameLabel.frame), 36)
+        textField.frame = CGRect(x: nameLabel.frame.maxX, y: scoreLabel.frame.maxY, width: frame.size.width - 15 - nameLabel.frame.maxX, height: 36)
         textField.delegate = self
-        textField.textAlignment = .Center
-        textField.returnKeyType = .Done
-        textField.textColor = UIColor.whiteColor()
+        textField.textAlignment = .center
+        textField.returnKeyType = .done
+        textField.textColor = UIColor.white
         
-        border.frame = CGRectMake(textField.frame.origin.x, CGRectGetMaxY(textField.frame), textField.frame.size.width, 1)
+        border.frame = CGRect(x: textField.frame.origin.x, y: textField.frame.maxY, width: textField.frame.size.width, height: 1)
         addSubviews(border)
-        border.backgroundColor = UIColor.whiteColor()
+        border.backgroundColor = UIColor.white
         
-        hintLabel.frame = CGRectMake(0, CGRectGetMaxY(textField.frame), self.frame.width, 24)
+        hintLabel.frame = CGRect(x: 0, y: textField.frame.maxY, width: self.frame.width, height: 24)
         hintLabel.withFontHeletica(12).withText("Name must has 4 more characters").withTextColor(UIColor(fromHexString: "E0131C")).textCentered()
         
-        doneBtn.frame = CGRectMake(frame.size.width / 2 - 100, CGRectGetMaxY(textField.frame) + 15, 90, 44)
-        doneBtn.withFontHeleticaMedium(15).withTitleColor(UIColor.whiteColor()).withTitle("Submit").withHighlightTitleColor(UIColor.lightGrayColor())
-        doneBtn.addTarget(self, action: #selector(doneBtnDidClicked), forControlEvents: .TouchUpInside)
+        doneBtn.frame = CGRect(x: frame.size.width / 2 - 100, y: textField.frame.maxY + 15, width: 90, height: 44)
+        doneBtn.withFontHeleticaMedium(15).withTitleColor(UIColor.white).withTitle("Submit").withHighlightTitleColor(UIColor.lightGray)
+        doneBtn.addTarget(self, action: #selector(doneBtnDidClicked), for: .touchUpInside)
         addSubviews(scoreLabel, textField, doneBtn)
         
-        cancelBtn.frame = CGRectMake(frame.size.width / 2 + 10, doneBtn.frame.origin.y, 90, 44)
-        cancelBtn.addTarget(self, action: #selector(cancelBtnDidClicked), forControlEvents: .TouchUpInside)
-        cancelBtn.withFontHeleticaMedium(15).withTitleColor(UIColor.whiteColor()).withTitle("Cancel").withHighlightTitleColor(UIColor.lightGrayColor())
+        cancelBtn.frame = CGRect(x: frame.size.width / 2 + 10, y: doneBtn.frame.origin.y, width: 90, height: 44)
+        cancelBtn.addTarget(self, action: #selector(cancelBtnDidClicked), for: .touchUpInside)
+        cancelBtn.withFontHeleticaMedium(15).withTitleColor(UIColor.white).withTitle("Cancel").withHighlightTitleColor(UIColor.lightGray)
         addSubviews(cancelBtn)
     }
     
@@ -79,9 +79,9 @@ class CompleteView: UIView, UITextFieldDelegate {
         
     }
     
-    func setRankInfo(rank : Int){
+    func setRankInfo(_ rank : Int){
         active.stopAnimating()
-        rankLabel.withTextColor(UIColor.whiteColor()).withText("Ranking : \(rank)")
+        rankLabel.withTextColor(UIColor.white).withText("Ranking : \(rank)")
     }
     
     func doneBtnDidClicked(){
@@ -91,20 +91,20 @@ class CompleteView: UIView, UITextFieldDelegate {
         }
     }
     
-    func showAnimation(startFrame: CGRect) {
+    func showAnimation(_ startFrame: CGRect) {
         let tmpSize = frame
         alpha = 0
         self.frame = startFrame
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.frame = tmpSize
             self.alpha = 1
         })
     }
     
-    func hideAnimation(endFrame : CGRect) {
+    func hideAnimation(_ endFrame : CGRect) {
         let tmpSize = frame
         alpha = 1
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.frame = endFrame
             self.alpha = 0
             },completion: {(Bool) -> Void in
@@ -115,7 +115,7 @@ class CompleteView: UIView, UITextFieldDelegate {
     
     func checkInput() -> Bool{
         if textField.text != nil{
-            textField.text = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            textField.text = textField.text!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             let cnt = ([Character](textField.text!.characters)).count
             if cnt < 4 {
                 addSubviews(hintLabel)
@@ -134,7 +134,7 @@ class CompleteView: UIView, UITextFieldDelegate {
         delegate?.completeViewDidCancel(self)
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if checkInput(){
             textField.resignFirstResponder()
             doneBtnDidClicked()

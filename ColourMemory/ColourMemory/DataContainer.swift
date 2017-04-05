@@ -29,28 +29,28 @@ private let LocalScoreTable = TableWith("LocalScoreTable", type: UserScore.self,
 class DataContainer: NSObject {
     static let sharedIntance = DataContainer()
     
-    func storeScore(score : Int, name : String){
+    func storeScore(_ score : Int, name : String){
         let one = UserScore(theName: name, score: score)
         LocalScoreTable.save(one)
         
         let vNetTask = UploadUserScoreNetTask()
         vNetTask.name = name
         vNetTask.score = score
-        vNetTask.success = {(task : NSURLSessionDataTask, responseObject : AnyObject?) -> Void in
+        vNetTask.success = {(task : URLSessionDataTask, responseObject : AnyObject?) -> Void in
             print("upload successed")
         }
-        vNetTask.failed = {(task : NSURLSessionDataTask?, error : NSError) -> Void in
+        vNetTask.failed = {(task : URLSessionDataTask?, error : NSError) -> Void in
             print(error.description)
         }
         NetWorkHandler.sharedInstance.sendNetTask(vNetTask)
     }
     
-    func getAllScores(handler : ([UserScore]) -> Void){
+    func getAllScores(_ handler : @escaping ([UserScore]) -> Void){
         let vNetTask = ScoreListNetTask()
-        vNetTask.success = {(task : NSURLSessionDataTask, responseObject : AnyObject?) -> Void in
-            if let jsonData: NSData = responseObject as? NSData {
+        vNetTask.success = {(task : URLSessionDataTask, responseObject : AnyObject?) -> Void in
+            if let jsonData: Data = responseObject as? Data {
                 do {
-                    let jsonArray = try NSJSONSerialization.JSONObjectWithData(jsonData, options:[])
+                    let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options:[])
                     if let theArray = jsonArray as? NSArray{
                         handler(ScoreListNetTask.parseResultToUserScoreList(theArray))
                     }
@@ -58,16 +58,16 @@ class DataContainer: NSObject {
                 catch {}
             }
         }
-        vNetTask.failed = {(task : NSURLSessionDataTask?, error : NSError) -> Void in
+        vNetTask.failed = {(task : URLSessionDataTask?, error : NSError) -> Void in
             print(error.description)
             LocalScoreTable.queryAll(handler: handler)
         }
         NetWorkHandler.sharedInstance.sendNetTask(vNetTask)
     }
     
-    func getHighScores(handler : ([UserScore]) -> Void, maxNumber : Int){
+    func getHighScores(_ handler : @escaping ([UserScore]) -> Void, maxNumber : Int){
         let wrapper = {(users : [UserScore]) -> Void in
-            var nusers = users.sort({ $0.score > $1.score })
+            var nusers = users.sorted(by: { $0.score > $1.score })
             
             if nusers.count <= maxNumber {
                 self.countUserRank(&nusers)
@@ -82,7 +82,7 @@ class DataContainer: NSObject {
         getAllScores(wrapper)
     }
     
-    func countUserRank(inout users : [UserScore]){
+    func countUserRank(_ users : inout [UserScore]){
         var rank = 1
         var preScore : Int?
         var cnt = 1
@@ -99,7 +99,7 @@ class DataContainer: NSObject {
         }
     }
     
-    func getRanking(score : Int, handler : (Int) -> Void){
+    func getRanking(_ score : Int, handler : @escaping (Int) -> Void){
         let wrapper = {(users : [UserScore]) -> Void in
             var rank = 1
             for one in users {

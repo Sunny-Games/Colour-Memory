@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-    func addSubviews(views : UIView...) {
+    func addSubviews(_ views : UIView...) {
         for v in views {
             self.addSubview(v)
         }
@@ -17,36 +17,36 @@ extension UIView {
 }
 
 extension UILabel {
-    func withFontHeletica(size : CGFloat) -> UILabel{
+    func withFontHeletica(_ size : CGFloat) -> UILabel{
         self.font = UIFont.regularFont(size)
         return self
     }
     
-    func withFontHeleticaMedium(size : CGFloat) -> UILabel{
+    func withFontHeleticaMedium(_ size : CGFloat) -> UILabel{
         self.font = UIFont.mediumfont(size)
         return self
     }
     
-    func withFontHeleticaBold(size : CGFloat) -> UILabel{
+    func withFontHeleticaBold(_ size : CGFloat) -> UILabel{
         self.font = UIFont.boldFont(size)
         return self
     }
     
-    func withFontHeleticaLight(size : CGFloat) -> UILabel{
+    func withFontHeleticaLight(_ size : CGFloat) -> UILabel{
         self.font = UIFont.lightfont(size)
         return self
     }
     
     func textCentered() -> UILabel {
-        self.textAlignment = NSTextAlignment.Center
+        self.textAlignment = NSTextAlignment.center
         return self
     }
     
-    func withTextColor(color: UIColor) -> UILabel {
+    func withTextColor(_ color: UIColor) -> UILabel {
         self.textColor = color
         return self
     }
-    func withText(text: String) -> UILabel {
+    func withText(_ text: String) -> UILabel {
         self.text = text
         return self
     }
@@ -54,48 +54,48 @@ extension UILabel {
 
 
 extension UIButton {
-    func withFontHeletica(size : CGFloat) -> UIButton{
+    func withFontHeletica(_ size : CGFloat) -> UIButton{
         self.titleLabel!.font = UIFont.regularFont(size)
         return self
     }
     
-    func withFontHeleticaBold(size : CGFloat) -> UIButton{
+    func withFontHeleticaBold(_ size : CGFloat) -> UIButton{
         self.titleLabel!.font = UIFont.boldFont(size)
         return self
     }
     
-    func withFontHeleticaMedium(size : CGFloat) -> UIButton{
+    func withFontHeleticaMedium(_ size : CGFloat) -> UIButton{
         self.titleLabel!.font = UIFont.mediumfont(size)
         return self
     }
     
-    func withTitle(title : String) -> UIButton {
-        self.setTitle(title, forState: .Normal)
+    func withTitle(_ title : String) -> UIButton {
+        self.setTitle(title, for: UIControlState())
         return self
     }
     
-    func withFont(font : UIFont) -> UIButton {
+    func withFont(_ font : UIFont) -> UIButton {
         self.titleLabel?.font = font
         return self
     }
     
-    func withTitleColor(color : UIColor) -> UIButton {
-        self.setTitleColor(color, forState: .Normal)
+    func withTitleColor(_ color : UIColor) -> UIButton {
+        self.setTitleColor(color, for: UIControlState())
         return self
     }
     
-    func withHighlightTitleColor(color : UIColor) -> UIButton {
-        self.setTitleColor(color, forState: .Highlighted)
+    func withHighlightTitleColor(_ color : UIColor) -> UIButton {
+        self.setTitleColor(color, for: .highlighted)
         return self
     }
     
-    func withImage(image : UIImage?) -> UIButton {
-        setImage(image, forState: state)
+    func withImage(_ image : UIImage?) -> UIButton {
+        setImage(image, for: state)
         return self
     }
     
-    func withBackgroundImage(image : UIImage?) -> UIButton {
-        setBackgroundImage(image, forState: state)
+    func withBackgroundImage(_ image : UIImage?) -> UIButton {
+        setBackgroundImage(image, for: state)
         return self
     }
 }

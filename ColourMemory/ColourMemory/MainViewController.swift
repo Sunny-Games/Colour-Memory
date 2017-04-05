@@ -9,17 +9,20 @@
 import UIKit
 
 var scoreWindow : HighScoreWindow = {
-    let swindow = HighScoreWindow(frame :UIScreen.mainScreen().bounds)
+    let swindow = HighScoreWindow(frame :UIScreen.main.bounds)
     swindow.rootViewController = HighScoreViewController()
     return swindow
 }()
+
+let successGain = 20
+let failedGain = -20
 
 class MainViewController: UIViewController {
     let scoreLabel = UILabel()
     let reminderLabel = UILabel()
     let highScoreBtn = UIButton()
     
-    private var _currentScore = 0
+    fileprivate var _currentScore = 0
     var currentScore : Int {
         set {
             _currentScore = newValue
@@ -35,57 +38,57 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black24()
         
-        let logoIV = UIImageView(frame : CGRectMake(0, 20, 120, 44))
-        logoIV.contentMode = .ScaleAspectFit
+        let logoIV = UIImageView(frame : CGRect(x: 0, y: 20, width: 120, height: 44))
+        logoIV.contentMode = .scaleAspectFit
         logoIV.image = UIImage(named: "LogoIcon")
         view.addSubview(logoIV)
         
-        scoreLabel.frame = CGRectMake(view.frame.size.width / 2 - 80, 20, 160, 44)
+        scoreLabel.frame = CGRect(x: view.frame.size.width / 2 - 80, y: 20, width: 160, height: 44)
         view.addSubview(scoreLabel)
-        scoreLabel.withTextColor(UIColor.whiteColor()).textCentered()
+        scoreLabel.withTextColor(UIColor.white).textCentered()
         currentScore = 0
         
-        highScoreBtn.frame = CGRectMake(view.frame.size.width - 23 - 85, 20, 90, 44)
+        highScoreBtn.frame = CGRect(x: view.frame.size.width - 23 - 85, y: 20, width: 90, height: 44)
         view.addSubview(highScoreBtn)
-        highScoreBtn.withFontHeleticaMedium(16).withTitle("High Scores").withTitleColor(UIColor.whiteColor())
-        highScoreBtn.addTarget(self, action: #selector(highScoreDidClicked), forControlEvents: .TouchUpInside)
+        highScoreBtn.withFontHeleticaMedium(16).withTitle("High Scores").withTitleColor(UIColor.white)
+        highScoreBtn.addTarget(self, action: #selector(highScoreDidClicked), for: .touchUpInside)
         
         let height = (view.frame.size.width - 15) * 190 / 152 + 15
         let spacing = (view.frame.size.height - height - 64) / 2
         
-        cardView = ColourCollectionView(frame : CGRectMake(0, 64 + spacing, view.frame.size.width, height))
+        cardView = ColourCollectionView(frame : CGRect(x: 0, y: 64 + spacing, width: view.frame.size.width, height: height))
         cardView.delegate = self
         view.addSubview(cardView)
         
         let replayHeight : CGFloat = 100 * 168 / 148
-        replayBtn.frame = CGRectMake(view.frame.size.width / 2 - 50, cardView.frame.height / 2 + cardView.frame.origin.y - 25 - replayHeight / 2, 100, replayHeight)
+        replayBtn.frame = CGRect(x: view.frame.size.width / 2 - 50, y: cardView.frame.height / 2 + cardView.frame.origin.y - 25 - replayHeight / 2, width: 100, height: replayHeight)
         replayBtn.withImage(UIImage(named: "ReplayIcon"))
-        replayBtn.addTarget(self, action: #selector(replayBtnDidClicked), forControlEvents: .TouchUpInside)
+        replayBtn.addTarget(self, action: #selector(replayBtnDidClicked), for: .touchUpInside)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Portrait
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return .portrait
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
     
     func replayBtnDidClicked(){
-        UIView.animateWithDuration(1, animations:{
-            self.replayBtn.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+        UIView.animate(withDuration: 1, animations:{
+            self.replayBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
             self.replayBtn.alpha = 0
         })
         
         let complete = {() -> Void in
             self.replayBtn.layer.removeAllAnimations()
             self.replayBtn.removeFromSuperview()
-            self.replayBtn.transform = CGAffineTransformIdentity
+            self.replayBtn.transform = CGAffineTransform.identity
             self.replayBtn.alpha = 1
         }
         currentScore = 0
@@ -104,22 +107,22 @@ class MainViewController: UIViewController {
         })
     }
     
-    func showReminderLabel(getScore : Int){
+    func showReminderLabel(_ getScore : Int){
         reminderLabel.textCentered().withFontHeleticaMedium(18)
         if getScore >= 0 {
             reminderLabel.withText("+\(getScore)")
-            reminderLabel.withTextColor(UIColor.whiteColor())
+            reminderLabel.withTextColor(UIColor.white)
         }else{
             reminderLabel.withText("\(getScore)")
             reminderLabel.withTextColor(UIColor(fromHexString: "E0131C"))
         }
         view.addSubview(reminderLabel)
         reminderLabel.alpha = 1
-        reminderLabel.frame = CGRectMake(scoreLabel.frame.origin.x, 300, scoreLabel.frame.size.width, 44)
+        reminderLabel.frame = CGRect(x: scoreLabel.frame.origin.x, y: 300, width: scoreLabel.frame.size.width, height: 44)
         let scoreFrame = self.scoreLabel.frame
-        UIView.animateWithDuration(1, animations: {
+        UIView.animate(withDuration: 1, animations: {
             self.reminderLabel.alpha = 1
-            self.reminderLabel.frame = CGRectMake(scoreFrame.origin.x, scoreFrame.origin.y + 25, scoreFrame.size.width, scoreFrame.size.height)
+            self.reminderLabel.frame = CGRect(x: scoreFrame.origin.x, y: scoreFrame.origin.y + 25, width: scoreFrame.size.width, height: scoreFrame.size.height)
             }, completion: {(Bool) -> Void in
                 self.reminderLabel.removeFromSuperview()
                 self.currentScore += getScore
@@ -129,7 +132,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate {
     func showCompleteView(){
-        let completeView = CompleteView(frame: CGRectMake(self.view.frame.size.width / 2 - 150, self.view.frame.size.height / 2 - 181 / 2 - 25, 300, 181), score: self.currentScore)
+        let completeView = CompleteView(frame: CGRect(x: self.view.frame.size.width / 2 - 150, y: self.view.frame.size.height / 2 - 181 / 2 - 25, width: 300, height: 181), score: self.currentScore)
         completeView.delegate = self
         
         let handler = {(rank : Int) -> Void in
@@ -144,39 +147,39 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
     func showReplayBtn(){
         self.replayBtn.alpha = 0
         view.addSubview(replayBtn)
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.replayBtn.alpha = 1
             }, completion: nil)
     }
     
-    func completeViewDidCancel(completeView: CompleteView) {
+    func completeViewDidCancel(_ completeView: CompleteView) {
         completeView.hideAnimation(completeView.frame)
         showReplayBtn()
     }
     
-    func completeViewDidSubmit(completeView: CompleteView, name: String) {
+    func completeViewDidSubmit(_ completeView: CompleteView, name: String) {
         completeView.hideAnimation(highScoreBtn.frame)
         DataContainer.sharedIntance.storeScore(self.currentScore, name: name)
         showReplayBtn()
     }
     
-    func colourCollectionViewMemoryFailed(colourView: ColourCollectionView) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.showReminderLabel(-1)
+    func colourCollectionViewMemoryFailed(_ colourView: ColourCollectionView) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.8 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            self.showReminderLabel(failedGain)
             SoundManager.sharedInstance.playFailedSound()
             colourView.recoverFlippedCard()
         }
     }
     
-    func colourCollectionViewMemorySuccess(colourView: ColourCollectionView) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.showReminderLabel(2)
+    func colourCollectionViewMemorySuccess(_ colourView: ColourCollectionView) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            self.showReminderLabel(successGain)
             SoundManager.sharedInstance.playSuccessSound()
             colourView.destroyFlippedCard()
         }
     }
     
-    func colourCollectionViewMemoryComplete(colourView: ColourCollectionView) {
+    func colourCollectionViewMemoryComplete(_ colourView: ColourCollectionView) {
         self.showCompleteView()
     }
 }

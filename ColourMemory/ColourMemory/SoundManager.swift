@@ -11,9 +11,9 @@ import SpriteKit
 import AVFoundation
 
 class SoundManager: NSObject {
-    private let coinSoundURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("lock", ofType: "mp3")!)
-    private let successSoundURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("success", ofType: "mp3")!)
-    private let failedSoundURL = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("failed", ofType: "mp3")!)
+    fileprivate let coinSoundURL = URL(fileURLWithPath: Bundle.main.path(forResource: "lock", ofType: "mp3")!)
+    fileprivate let successSoundURL = URL(fileURLWithPath: Bundle.main.path(forResource: "success", ofType: "wav")!)
+    fileprivate let failedSoundURL = URL(fileURLWithPath: Bundle.main.path(forResource: "failed", ofType: "mp3")!)
     
     var flipSound : AVAudioPlayer?
     var successSound : AVAudioPlayer?
@@ -25,13 +25,13 @@ class SoundManager: NSObject {
         super.init()
         
         do {
-            flipSound = try AVAudioPlayer(contentsOfURL: coinSoundURL)
+            flipSound = try AVAudioPlayer(contentsOf: coinSoundURL)
             flipSound!.prepareToPlay()
             
-            successSound = try AVAudioPlayer(contentsOfURL: successSoundURL)
+            successSound = try AVAudioPlayer(contentsOf: successSoundURL)
             successSound!.prepareToPlay()
             
-            failedSound = try AVAudioPlayer(contentsOfURL: failedSoundURL)
+            failedSound = try AVAudioPlayer(contentsOf: failedSoundURL)
             failedSound!.prepareToPlay()
         } catch {
             // couldn't load file :(

@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Cartography (0.6.0)
+  - Cartography (1.0.1)
   - FMDB/standalone (2.6.2):
     - FMDB/standalone/default (= 2.6.2)
     - FMDB/standalone/FTS (= 2.6.2)
@@ -28,23 +28,20 @@ PODS:
   - sqlite3/common (3.13.0)
   - sqlite3/fts (3.13.0):
     - sqlite3/common
-  - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - AFNetworking
   - Cartography
   - FMDB/standalone
   - MBProgressHUD
-  - SwiftyJSON
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Cartography: 70af183a248547694a8cfaa6b989cb7e04589985
+  Cartography: c1460e99395b824d9d75360b0382faeb0b33dcd7
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   sqlite3: c8b1b937fe823ab46411e471cdc1aa92d1b106ce
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: fdd6c7dff8cb5497b3de4267fcfe8745febcbca5
+PODFILE CHECKSUM: c99261200613e1b6da67d1e79c255d02c951ccf7
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.0

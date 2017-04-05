@@ -17,34 +17,34 @@ class ScoreTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         super.init(frame: frame, style: style)
         
         contentInset = UIEdgeInsetsMake(0, 0, 30, 0)
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         self.delegate = self
         self.dataSource = self
-        self.separatorStyle = .None
+        self.separatorStyle = .none
         self.showsVerticalScrollIndicator = false
-        self.registerClass(UserScoreTableCell.self, forCellReuseIdentifier: UserScoreTableCellIdentity)
+        self.register(UserScoreTableCell.self, forCellReuseIdentifier: UserScoreTableCellIdentity)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         return users.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(UserScoreTableCellIdentity) as! UserScoreTableCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserScoreTableCellIdentity) as! UserScoreTableCell
         let oneContact = users[indexPath.row]
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
         cell.setNameScore(oneContact.name, score: oneContact.score, rank: oneContact.rank)
         
         return cell
@@ -52,9 +52,9 @@ class ScoreTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
 }
 
 class UserScoreTableCell: UITableViewCell {
-    private let nameLabel = UILabel()
-    private let scoreLabel = UILabel()
-    private let rankLabel = UILabel()
+    fileprivate let nameLabel = UILabel()
+    fileprivate let scoreLabel = UILabel()
+    fileprivate let rankLabel = UILabel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -67,12 +67,12 @@ class UserScoreTableCell: UITableViewCell {
         self.addSubviews(nameLabel, scoreLabel, rankLabel)
         backgroundColor = UIColor.blackDrak()
         
-        nameLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered()
-        scoreLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered()
-        rankLabel.withTextColor(UIColor.whiteColor()).withFontHeletica(15).textCentered()
+        nameLabel.withTextColor(UIColor.white).withFontHeletica(15).textCentered()
+        scoreLabel.withTextColor(UIColor.white).withFontHeletica(15).textCentered()
+        rankLabel.withTextColor(UIColor.white).withFontHeletica(15).textCentered()
         
         let border = UIView()
-        border.backgroundColor = UIColor.whiteColor()
+        border.backgroundColor = UIColor.white
         addSubview(border)
         
         constrain(nameLabel, scoreLabel, rankLabel, border, self) { nameLabel, scoreLabel, rankLabel, border, superView in
@@ -95,7 +95,7 @@ class UserScoreTableCell: UITableViewCell {
         }
     }
     
-    func setNameScore(name : String, score : Int, rank : Int){
+    func setNameScore(_ name : String, score : Int, rank : Int){
         nameLabel.withText(name)
         scoreLabel.withText("\(score)")
         rankLabel.withText("\(rank)")

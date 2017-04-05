@@ -14,7 +14,7 @@ class ScoreListNetTask: BaseNetTask {
         return ""
     }
     
-    static func parseResultToUserScoreList(array : NSArray) -> [UserScore] {
+    static func parseResultToUserScoreList(_ array : NSArray) -> [UserScore] {
         var userList = [UserScore]()
         
         for one in array {
