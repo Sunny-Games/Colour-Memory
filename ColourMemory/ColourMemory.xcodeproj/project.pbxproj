@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4777051183DC376977FBDA22 /* Pods_ColourMemory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DA29655E4AD70D124BC834A /* Pods_ColourMemory.framework */; };
 		6D97B45C1D4998A400EB035D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D97B45B1D4998A400EB035D /* AppDelegate.swift */; };
-		6D97B4611D4998A400EB035D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D97B45F1D4998A400EB035D /* Main.storyboard */; };
 		6D97B4661D4998A400EB035D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D97B4641D4998A400EB035D /* LaunchScreen.storyboard */; };
 		6D97B4721D4998D700EB035D /* lock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6D97B46F1D4998D700EB035D /* lock.mp3 */; };
 		6D97B48C1D49993D00EB035D /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D97B4761D49993D00EB035D /* CardView.swift */; };
@@ -43,7 +42,6 @@
 		12526D649C5473A2A4C3A6EC /* Pods-ColourMemory.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ColourMemory.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ColourMemory/Pods-ColourMemory.debug.xcconfig"; sourceTree = "<group>"; };
 		6D97B4581D4998A400EB035D /* ColourMemory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColourMemory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D97B45B1D4998A400EB035D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6D97B4601D4998A400EB035D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6D97B4651D4998A400EB035D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D97B46F1D4998D700EB035D /* lock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lock.mp3; sourceTree = "<group>"; };
 		6D97B4751D49990B00EB035D /* ColourMemory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ColourMemory-Bridging-Header.h"; path = "ColourMemory/ColourMemory-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				C94F4EC81E94E44800A1E045 /* failed.mp3 */,
 				C98180C81E95027500BAC014 /* Assets.xcassets */,
 				6D97B4641D4998A400EB035D /* LaunchScreen.storyboard */,
-				6D97B45F1D4998A400EB035D /* Main.storyboard */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -280,7 +277,6 @@
 				C94F4EC91E94E44800A1E045 /* failed.mp3 in Resources */,
 				6D97B4661D4998A400EB035D /* LaunchScreen.storyboard in Resources */,
 				6D97B4721D4998D700EB035D /* lock.mp3 in Resources */,
-				6D97B4611D4998A400EB035D /* Main.storyboard in Resources */,
 				C98180C91E95027500BAC014 /* Assets.xcassets in Resources */,
 				C94F4EC51E94E32C00A1E045 /* success.wav in Resources */,
 				6D97B4941D49993D00EB035D /* Info.plist in Resources */,
@@ -369,15 +365,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6D97B45F1D4998A400EB035D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6D97B4601D4998A400EB035D /* Base */,
-			);
-			name = Main.storyboard;
-			path = ColourMemory;
-			sourceTree = "<group>";
-		};
 		6D97B4641D4998A400EB035D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

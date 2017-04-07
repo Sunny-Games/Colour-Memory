@@ -7,5 +7,6 @@ target 'ColourMemory' do
     pod 'FMDB/standalone'
     pod 'AFNetworking'
     pod 'MBProgressHUD'
+    pod 'SnapKit'      		 , '~> 3.2.0'
 end
 
