@@ -59,13 +59,17 @@ class ColourCollectionView: UIView {
           make.leading.equalTo(3)
           make.top.equalTo(3)
         }
-        make.height.equalTo(100)
-        make.width.equalTo(self).dividedBy(4)
+        if i == (orderArray.count - 1) {
+          make.bottom.equalTo(self)
+        }
+        make.height.equalTo(80)
+        make.width.equalTo(self).dividedBy(4).offset(-3)
         //make.height.equalTo(self.snp.width).offset(15).dividedBy(4).multipliedBy(190 / 152)
       }
       
       previousCardView = cardView
     }
+    
   }
   
   func destroyFlippedCard(){

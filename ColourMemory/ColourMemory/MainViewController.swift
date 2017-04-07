@@ -69,7 +69,7 @@ class MainViewController: UIViewController {
     cardView.snp.makeConstraints { make in
       make.leading.equalTo(view)
       make.width.equalTo(view)
-      make.centerY.equalTo(view)
+      make.centerY.equalTo(view).offset(28)
     }
     
     replayBtn.alpha = 0
