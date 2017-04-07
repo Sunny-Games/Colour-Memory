@@ -72,6 +72,8 @@ class MainViewController: UIViewController {
       make.centerY.equalTo(view)
     }
     
+    replayBtn.alpha = 0
+    view.addSubview(replayBtn)
     replayBtn.withImage(UIImage(named: "ReplayIcon"))
     replayBtn.addTarget(self, action: #selector(replayBtnDidClicked), for: .touchUpInside)
     replayBtn.snp.makeConstraints { make in
@@ -150,6 +152,7 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
   func showCompleteView(){
     let completeView = CompleteView(frame: CGRect.zero, score: self.currentScore)
     completeView.delegate = self
+    self.view.addSubviews(completeView)
     completeView.snp.makeConstraints { make in
       make.centerX.equalTo(view)
       make.width.equalTo(300)
@@ -162,7 +165,6 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
     }
     completeView.textField.becomeFirstResponder()
     DataContainer.sharedIntance.getRanking(self.currentScore, handler: handler)
-    self.view.addSubviews(completeView)
     completeView.showAnimation(highScoreBtn.frame)
   }
   
