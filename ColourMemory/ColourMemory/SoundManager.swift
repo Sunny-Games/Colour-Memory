@@ -47,6 +47,7 @@ class SoundManager: NSObject {
     
     func playSuccessSound(){
         if successSound != nil {
+            successSound!.currentTime = 0
             successSound!.play()
         }
     }

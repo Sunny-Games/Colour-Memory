@@ -23,6 +23,8 @@ class ColourCollectionView: UIView {
   weak var delegate : ColourCollectionViewDelegate?
   var destoried = 0
   
+  var cardViews = [CardView]()
+  
   override init(frame: CGRect) {
     super.init(frame : frame)
     
@@ -31,13 +33,11 @@ class ColourCollectionView: UIView {
   
   func restartAnimation(completion: (() -> Void)?){
     orderArray.shuffle()
-    
+    cardViews.removeAll()
     flippedView.removeAll()
     flipColour.removeAll()
     destoried = 0
     removeAllSubViews()
-    
-    var previousCardView: CardView?
     
     for i in 0...(orderArray.count - 1){
       let cid = (orderArray[i] / 2 + 1)
@@ -45,31 +45,44 @@ class ColourCollectionView: UIView {
       let cardView = CardView(frame: CGRect.zero, image: UIImage(named: "Colour\(cid)"), colourId : cid)
       addSubview(cardView)
       cardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(colourCardDidTapped(_:))))
-      
-      cardView.snp.makeConstraints { make in
-        if let pc = previousCardView {
-          if i % 4 == 0 {
-            make.leading.equalTo(3)
-            make.top.equalTo(pc.snp.bottom).offset(3)
-          }else{
-            make.leading.equalTo(pc.snp.trailing).offset(3)
-            make.top.equalTo(pc)
-          }
-        }else{
-          make.leading.equalTo(3)
-          make.top.equalTo(3)
-        }
-        if i == (orderArray.count - 1) {
-          make.bottom.equalTo(self)
-        }
-        make.height.equalTo(80)
-        make.width.equalTo(self).dividedBy(4).offset(-3)
-        //make.height.equalTo(self.snp.width).offset(15).dividedBy(4).multipliedBy(190 / 152)
-      }
-      
-      previousCardView = cardView
+      cardView.tag = i
+      cardViews.append(cardView)
     }
     
+    self.alpha = 0
+    UIView.animate(withDuration: 0.3, animations: {
+      self.alpha = 1
+    })
+  }
+  
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    let selfWidth = frame.size.width
+    let oxSpacing: CGFloat = 5
+    let oySpacing: CGFloat = 5
+    let cardWidth = (selfWidth - 3 * oxSpacing) / 4
+    let cardHeight = cardWidth * 190 / 162
+    
+    var oneFrame = CGRect.zero
+    for one in cardViews {
+      let ny: CGFloat = CGFloat(one.tag / 4)
+      let nx: CGFloat = CGFloat(one.tag % 4)
+      
+      oneFrame.origin.x = nx * (cardWidth + oxSpacing) + oxSpacing
+      oneFrame.origin.y = ny * (cardHeight + oySpacing) + oySpacing
+      oneFrame.size.width = cardWidth
+      oneFrame.size.height = cardHeight
+      one.frame = oneFrame
+    }
+    
+    var selfFrame = self.frame
+    selfFrame.size.height = oneFrame.maxY + oxSpacing
+    self.frame = selfFrame
+    
+    if let superV = self.superview {
+      self.center.y = superV.center.y + 20
+    }
   }
   
   func destroyFlippedCard(){

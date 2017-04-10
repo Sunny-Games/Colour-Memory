@@ -69,7 +69,6 @@ class MainViewController: UIViewController {
     cardView.snp.makeConstraints { make in
       make.leading.equalTo(view)
       make.width.equalTo(view)
-      make.centerY.equalTo(view).offset(28)
     }
     
     replayBtn.alpha = 0
@@ -84,11 +83,6 @@ class MainViewController: UIViewController {
     }
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    
-  }
-  
   override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
     return .portrait
   }
@@ -98,7 +92,7 @@ class MainViewController: UIViewController {
   }
   
   func replayBtnDidClicked(){
-    UIView.animate(withDuration: 1, animations:{
+    UIView.animate(withDuration: 0.3, animations:{
       self.replayBtn.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
       self.replayBtn.alpha = 0
     })
@@ -157,7 +151,7 @@ extension MainViewController: ColourCollectionViewDelegate, CompleteViewDelegate
       make.centerX.equalTo(view)
       make.width.equalTo(300)
       make.height.equalTo(181)
-      make.centerY.equalTo(view).offset(-25)
+      make.top.equalTo(60)
     }
     
     let handler = {(rank : Int) -> Void in
